@@ -44,5 +44,6 @@ The backend is built with [Node.js/Express] (or other backend technology you're 
 
 ### Backend Setup
 1. Navigate to the `backend` directory.
+
    ```bash
    cd backend
