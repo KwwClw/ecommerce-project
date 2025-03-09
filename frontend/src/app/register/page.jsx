@@ -5,6 +5,7 @@ export default function Register() {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [message, setMessage] = useState("");
   const URL = process.env.NEXT_PUBLIC_API_URL;
+  console.log("API URL:", URL);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
