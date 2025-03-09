@@ -6,10 +6,11 @@ export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
   const router = useRouter();
+  const URL = process.env.NEXT_PUBLIC_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:5000/api/auth/login", {
+    const res = await fetch(`${URL}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
@@ -44,7 +45,7 @@ export default function Login() {
 
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
-//     const res = await fetch("http://localhost:5000/login", {
+//     const res = await fetch(`${URL}/login`, {
 //       method: "POST",
 //       headers: { "Content-Type": "application/json" },
 //       body: JSON.stringify(form),

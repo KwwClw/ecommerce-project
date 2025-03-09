@@ -5,10 +5,11 @@ import Link from "next/link";
 
 const Home = () => {
   const [message, setMessage] = useState("");
+  const URL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     // ดึงข้อความจากเซิร์ฟเวอร์
-    fetch("http://localhost:5000/")
+    fetch(`${URL}/api`)
       .then((res) => res.text())
       .then((data) => setMessage(data));
   }, []);

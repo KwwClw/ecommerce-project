@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 export default function Dashboard() {
   const [user, setUser] = useState(null);
   const router = useRouter();
+  const URL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -15,7 +16,7 @@ export default function Dashboard() {
       return;
     }
 
-    fetch("http://localhost:5000/me", {
+    fetch(`${URL}/me`, {
       headers: {
         Authorization: token,
       },
