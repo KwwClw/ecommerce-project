@@ -9,7 +9,7 @@ const Home = () => {
 
   useEffect(() => {
     // ดึงข้อความจากเซิร์ฟเวอร์
-    fetch(`${URL}/api`)
+    fetch(`${URL}/api/index`)
       .then((res) => res.text())
       .then((data) => setMessage(data));
   }, []);
