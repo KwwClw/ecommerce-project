@@ -66,7 +66,7 @@ const Home = () => {
         {error && <p className="text-red-500">{error}</p>}
         {products.length > 0 && !loading && !error ? (
           products.map((product) => (
-            <Link key={product.id} href={`/product/${product.id}`}>
+            <Link key={product.id} href={`/products/${product.id}`}>
               <div className="w-full p-4 border rounded-lg shadow-md bg-white">
                 <img src={product.image} alt={product.name} className="w-full max-h-full object-contain rounded" />
                 <h2 className="mt-2 font-semibold line-clamp-2">{product.name}</h2>
