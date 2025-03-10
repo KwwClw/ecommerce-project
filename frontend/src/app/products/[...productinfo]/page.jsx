@@ -4,6 +4,7 @@ export default async function ProductPage({ params }) {
   const { productinfo } = await params;  // ดึงค่าจาก catch-all parameter
   const id = productinfo[0];   // กำหนดให้ id เป็นค่าแรกจาก productinfo
   const name = productinfo[1]; // กำหนดให้ name เป็นค่าที่สองจาก productinfo
+  console.log(productinfo)
 
   return (
     <div>

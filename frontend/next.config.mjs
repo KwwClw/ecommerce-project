@@ -1,16 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    async rewrites() {
-      return {
-        beforeFiles: [
-          {
-            source: '/products/:id/:name',  // เปลี่ยนเส้นทางที่คุณต้องการ
-            destination: '/products/:id/:name/index'  // เส้นทางใหม่ที่ Next.js จะเปลี่ยนไป
-          }
-        ]
-      }
-    }
-  }
-  
-  export default nextConfig;
-  
+    // ไม่ต้องใส่ basePath ถ้าแอปไม่ได้ถูก deploy ใน sub-path
+};
+
+export default nextConfig;
