@@ -61,21 +61,37 @@ const Home = () => {
       </header>
 
       {/* 🔹 Product List */}
-      <main className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-6 mx-auto max-w-screen-xl">
-        {loading && <p>กำลังโหลดสินค้า...</p>}
-        {error && <p className="text-red-500">{error}</p>}
+      <main className="relative p-6 mx-auto max-w-screen-xl min-h-screen">
+        {loading && (
+          <p className="absolute inset-0 flex justify-center items-center text-lg whitespace-nowrap">
+            กำลังโหลดสินค้า...
+          </p>
+        )}
+        {!loading && error && (
+          <p className="absolute inset-0 flex justify-center items-center text-lg text-red-500 whitespace-nowrap">
+            ข้อผิดพลาดในการโหลดสินค้า
+          </p>
+        )}
 
         {!loading && !error && products.length > 0 ? (
-          products.map((product) => (
-            <Link key={product.id} href={`/products/${product.id}`}>
-              <div className="w-full p-4 border rounded-lg shadow-md bg-white">
-                <img src={product.image} alt={product.name} className="w-full max-h-full object-contain rounded" />
-                <h2 className="mt-2 font-semibold line-clamp-2">{product.name}</h2>
-                <p className="text-gray-700">฿ {product.price}</p>
-              </div>
-            </Link>
-          ))
-        ) : !loading && !error && <p className="text-gray-500">ยังไม่มีสินค้า</p>}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            {products.map((product) => (
+              <Link key={product.id} href={`/products/${product.id}`}>
+                <div className="w-full p-4 border rounded-lg shadow-md bg-white">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full max-h-full object-contain rounded"
+                  />
+                  <h2 className="mt-2 font-semibold line-clamp-2">{product.name}</h2>
+                  <p className="text-gray-700">฿ {product.price}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          !loading && !error && <p className="text-gray-500 text-center">ยังไม่มีสินค้า</p>
+        )}
       </main>
 
     </div>
