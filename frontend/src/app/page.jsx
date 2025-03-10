@@ -64,7 +64,8 @@ const Home = () => {
       <main className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-6 mx-auto max-w-screen-xl">
         {loading && <p>กำลังโหลดสินค้า...</p>}
         {error && <p className="text-red-500">{error}</p>}
-        {products.length > 0 && !loading && !error ? (
+
+        {!loading && !error && products.length > 0 ? (
           products.map((product) => (
             <Link key={product.id} href={`/products/${product.id}`}>
               <div className="w-full p-4 border rounded-lg shadow-md bg-white">
@@ -74,9 +75,7 @@ const Home = () => {
               </div>
             </Link>
           ))
-        ) : (
-          <p className="text-gray-500">ยังไม่มีสินค้า</p>
-        )}
+        ) : !loading && !error && <p className="text-gray-500">ยังไม่มีสินค้า</p>}
       </main>
 
     </div>
