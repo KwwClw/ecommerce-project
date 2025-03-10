@@ -1,4 +1,4 @@
-# Kaweewat Ecommerce Project
+<!-- # Kaweewat Ecommerce Project
 
 This is an ecommerce project developed by Kaweewat. The project includes both the frontend and backend, providing a full-fledged solution for managing products, users, and orders.
 
@@ -46,4 +46,4 @@ The backend is built with [Node.js/Express] (or other backend technology you're 
 1. Navigate to the `backend` directory.
 
    ```bash
-   cd backend
+   cd backend -->
