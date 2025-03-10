@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 
 export default function Register() {
@@ -17,6 +18,7 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Sending Data:", form); // 🛠 Debug
     try {
       const res = await fetch(`${URL}/api/auth/register`, {
         method: "POST",
@@ -25,6 +27,7 @@ export default function Register() {
       });
 
       const data = await res.json();
+      console.log("Response:", data); // 🛠 Debug
       setMessage(data.message || "Registration successful!");
     } catch (err) {
       setMessage("Error connecting to server");

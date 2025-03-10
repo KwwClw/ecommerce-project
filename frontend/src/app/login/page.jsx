@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -7,9 +8,11 @@ export default function Login() {
   const [message, setMessage] = useState("");
   const router = useRouter();
   const URL = process.env.NEXT_PUBLIC_API_URL;
+  console.log("API URL:", URL);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Sending Data:", form); // 🛠 Debug
     const res = await fetch(`${URL}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -17,6 +20,7 @@ export default function Login() {
     });
 
     const data = await res.json();
+    console.log("Response:", data); // 🛠 Debug
     if (data.token) {
       localStorage.setItem("token", data.token);
       router.push("/dashboard");
