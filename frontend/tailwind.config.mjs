@@ -10,6 +10,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'custom-gray': '#212121',
+        'custom-gray-light': '#424242',
       },
     },
   },
