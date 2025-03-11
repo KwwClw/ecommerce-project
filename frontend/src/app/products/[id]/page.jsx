@@ -1,5 +1,8 @@
+const URL = process.env.NEXT_PUBLIC_API_URL;
+console.log("API URL:", URL);
+
 export async function generateStaticParams() {
-  const res = await fetch("http://localhost:5000/api/all-products");
+  const res = await fetch(`${URL}/api/all-products`);
   const products = await res.json();
 
   // ดึงเฉพาะ _id ของสินค้า
@@ -16,7 +19,7 @@ export async function generateStaticParams() {
 }
 
 export default async function ProductPage({ params }) {
-  const res = await fetch(`http://localhost:5000/api/products/${params.id}`);
+  const res = await fetch(`${URL}/api/products/${params.id}`);
   const product = await res.json();
   // console.log(`id: ${params.id}`);
 
