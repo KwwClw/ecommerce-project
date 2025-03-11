@@ -1,15 +1,15 @@
-"use client";  // เพิ่มบรรทัดนี้เพื่อบอกว่าไฟล์นี้เป็น Client Component
+// src/app/docs/[slug]/page.jsx
 
-import { useParams } from 'next/navigation';
-
-export default function ProductPage() {
-    const params = useParams();
-    const paths = params?.slug || []; // ถ้าไม่มีค่าให้ใช้ []
-
+export async function generateStaticParams() {
+    const slugs = ['first-post', 'second-post', 'third-post']; // รายการ slug ที่ต้องการ
+    return slugs.map((slug) => ({ slug }));
+  }
+  
+  export default function Page({ params }) {
     return (
-        <div>
-            <h1>Dynamic Product Route</h1>
-            <p>Path Segments: {JSON.stringify(paths)}</p>
-        </div>
+      <div>
+        <h1>My Post: {params.slug}</h1>
+      </div>
     );
-}
+  }
+  
