@@ -1,7 +1,10 @@
 import React from "react";
 
 async function getProduct(id) {
-  const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+  const URL = process.env.NEXT_PUBLIC_API_URL;
+  console.log("API URL:", URL);
+
+  const res = await fetch(`${URL}/api/products/${id}`, {
     cache: "no-store", // หรือใช้ 'force-cache' ถ้าต้องการ Cache
   });
 
