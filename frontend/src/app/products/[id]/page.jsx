@@ -1,22 +1,17 @@
-import React from "react";
+export async function generateStaticParams() {
+  const res = await fetch("http://localhost:5000/api/all-products");
+  const products = await res.json();
 
-async function getProduct(id) {
-  const URL = process.env.NEXT_PUBLIC_API_URL;
-  console.log("API URL:", URL);
-
-  const res = await fetch(`${URL}/api/products/${id}`, {
-    cache: "no-store", // หรือใช้ 'force-cache' ถ้าต้องการ Cache
+  return products.map((product) => {
+    console.log(product._id); // ✅ Log ได้แล้ว
+    return { id: product._id }; // ✅ return object ที่ถูกต้อง
   });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch product");
-  }
-
-  return res.json();
 }
 
 export default async function ProductPage({ params }) {
-  const product = await getProduct(params.id);
+  const res = await fetch(`http://localhost:5000/api/products/${params.id}`);
+  const product = await res.json();
+  // console.log(product);
 
   return (
     <div>
