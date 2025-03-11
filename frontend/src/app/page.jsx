@@ -11,16 +11,16 @@ const Home = () => {
   const [error, setError] = useState(null); // สำหรับจัดการข้อผิดพลาด
   const URL = process.env.NEXT_PUBLIC_API_URL;
   const [isClient, setIsClient] = useState(false);
-  const formatProductName = (name) => {
-    return name
-      .toLowerCase()  // แปลงเป็นตัวพิมพ์เล็กทั้งหมด
-      .replace(/\s+/g, '-')  // แทนที่ช่องว่างด้วยขีด
-      .replace(/[^\w-]/g, '');  // ลบตัวอักษรพิเศษหรือสัญลักษณ์ที่ไม่ต้องการ
-  }
+  // const formatProductName = (name) => {
+  //   return name
+  //     .toLowerCase()  // แปลงเป็นตัวพิมพ์เล็กทั้งหมด
+  //     .replace(/\s+/g, '-')  // แทนที่ช่องว่างด้วยขีด
+  //     .replace(/[^\w-]/g, '');  // ลบตัวอักษรพิเศษหรือสัญลักษณ์ที่ไม่ต้องการ
+  // }
 
   useEffect(() => {
     // ดึงข้อมูลสินค้า
-    fetch(`${URL}/api/products`)
+    fetch(`${URL}/api/all-products`)
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
@@ -68,7 +68,7 @@ const Home = () => {
             กำลังโหลดสินค้า...
           </p>
         )}
-        {!loading && error && (
+        {error && (
           <p className="absolute inset-0 flex justify-center items-center text-lg text-red-500 whitespace-nowrap">
             ข้อผิดพลาดในการโหลดสินค้า
           </p>
@@ -77,7 +77,7 @@ const Home = () => {
         {!loading && !error && products.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
             {products.map((product) => (
-              <Link key={product.id} href={`/products/${product.id}/${formatProductName(product.name)}`}>
+              <Link key={product.id} href={`/products/${product._id}`}>
                 <div className="w-full p-4 border rounded-lg shadow-md bg-white">
                   <img
                     src={product.image}
