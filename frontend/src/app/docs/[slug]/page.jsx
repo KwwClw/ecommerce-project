@@ -2,7 +2,11 @@
 
 export async function generateStaticParams() {
     const slugs = ['first-post', 'second-post', 'third-post']; // รายการ slug ที่ต้องการ
-    return slugs.map((slug) => ({ slug }));
+    // console.log(slugs); // แสดงผลอาร์เรย์ของ slug
+
+    const result = slugs.map((slug) => ({ slug })); // แปลงให้เป็นอ็อบเจ็กต์ที่มี key เป็น slug
+    console.log(result); // log ผลลัพธ์ในรูปแบบที่ต้องการ
+    return result; // คืนค่าเป็นอาร์เรย์ของอ็อบเจ็กต์
   }
   
   export default function Page({ params }) {
