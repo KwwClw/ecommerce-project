@@ -1,5 +1,3 @@
-"use client";  // เพิ่มบรรทัดนี้เพื่อบอกว่าไฟล์นี้เป็น Client Component
-
 import { useParams } from 'next/navigation';
 
 export default function ProductPage() {
