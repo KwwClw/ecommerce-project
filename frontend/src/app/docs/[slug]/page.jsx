@@ -17,7 +17,7 @@
 //   );
 // }
 
-export default async function Page({ params }) {
-  const { slug } = await params
-  return <div>My Post: {slug}</div>
+export default function Page({ params }) {
+  const { slug } = params; // ไม่ต้องใช้ await
+  return <div>My Post: {slug}</div>;
 }
