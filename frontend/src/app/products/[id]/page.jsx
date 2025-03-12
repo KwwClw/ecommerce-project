@@ -14,13 +14,13 @@ export async function generateStaticParams() {
       const data = await res.json();
 
       if (!data.products || data.products.length === 0) {
-        break; // ถ้าไม่มีสินค้าหรือ API คืนค่าว่าง หยุดการโหลด
+        break; // ถ้าข้อมูลหมดแล้ว หยุดโหลด
       }
 
       allProducts = [...allProducts, ...data.products];
 
       if (page >= data.totalPages) {
-        break; // หยุดเมื่อถึงหน้าสุดท้าย
+        break; // ถ้าถึงหน้าสุดท้ายแล้ว หยุดโหลด
       }
 
       page++; // ไปหน้าถัดไป
