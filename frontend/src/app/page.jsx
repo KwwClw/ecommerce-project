@@ -24,7 +24,7 @@ const Home = () => {
     fetch(`${URL}/api/all-products`)
       .then((res) => res.json())
       .then((data) => {
-        setProducts(data.products);
+        setProducts(data);
         setLoading(false);
       })
       .catch((error) => {

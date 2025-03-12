@@ -1,52 +1,79 @@
-// src/app/products/[id]/page.jsx
+// // src/app/products/[id]/page.jsx
 
-const URL = process.env.NEXT_PUBLIC_API_URL;
-console.log("API URL:", URL);
+// const URL = process.env.NEXT_PUBLIC_API_URL;
+// console.log("API URL:", URL);
 
-export async function generateStaticParams() {
-  const URL = process.env.NEXT_PUBLIC_API_URL;
-  let page = 1;
-  let allProducts = [];
+// export async function generateStaticParams() {
+//   const URL = process.env.NEXT_PUBLIC_API_URL;
+//   let page = 1;
+//   let allProducts = [];
 
-  try {
-    while (true) {
-      const res = await fetch(`${URL}/api/all-products?page=${page}&limit=10`);
-      const data = await res.json();
+//   try {
+//     while (true) {
+//       const res = await fetch(`${URL}/api/all-products?page=${page}&limit=10`);
+//       const data = await res.json();
 
-      if (!data.products || data.products.length === 0) {
-        break; // ถ้าข้อมูลหมดแล้ว หยุดโหลด
-      }
+//       if (!data.products || data.products.length === 0) {
+//         break; // ถ้าข้อมูลหมดแล้ว หยุดโหลด
+//       }
 
-      allProducts = [...allProducts, ...data.products];
+//       allProducts = [...allProducts, ...data.products];
 
-      if (page >= data.totalPages) {
-        break; // ถ้าถึงหน้าสุดท้ายแล้ว หยุดโหลด
-      }
+//       if (page >= data.totalPages) {
+//         break; // ถ้าถึงหน้าสุดท้ายแล้ว หยุดโหลด
+//       }
 
-      page++; // ไปหน้าถัดไป
-    }
+//       page++; // ไปหน้าถัดไป
+//     }
 
-    // แปลงเป็นรูปแบบที่ Next.js ต้องการ
-    return allProducts.map((product) => ({ id: product._id }));
+//     // แปลงเป็นรูปแบบที่ Next.js ต้องการ
+//     return allProducts.map((product) => ({ id: product._id }));
 
-  } catch (error) {
-    console.error("Error fetching all products:", error);
-    return [];
-  }
-}
+//   } catch (error) {
+//     console.error("Error fetching all products:", error);
+//     return [];
+//   }
+// }
+
+// export default async function ProductPage({ params }) {
+//   const res = await fetch(`${URL}/api/products/${params.id}`);
+//   const product = await res.json();
+//   // console.log(`id: ${params.id}`);
+
+//   // ตรวจสอบว่ามีข้อมูลจาก API
+//   if (!product) {
+//     return <div>Product not found</div>;
+//   }
+
+//   // เนื่องจากราคามีการใช้ $numberDecimal ให้แปลงเป็นค่า number ด้วย parseFloat
+//   const price = product.price?.$numberDecimal ? parseFloat(product.price.$numberDecimal) : product.price;
+
+//   return (
+//     <div>
+//       <h1>{product.name}</h1>
+//       <p>ราคา: {price} บาท</p>
+//       <img src={product.image} alt={product.name} width={300} />
+//       <p>description: {product.description}</p>
+//     </div>
+//   );
+// }
 
 export default async function ProductPage({ params }) {
-  const res = await fetch(`${URL}/api/products/${params.id}`);
-  const product = await res.json();
-  // console.log(`id: ${params.id}`);
+  const URL = process.env.NEXT_PUBLIC_API_URL;
+  const res = await fetch(`${URL}/api/products/${params.id}`, {
+    next: { revalidate: 60 }, // รีเฟรชทุก 60 วินาที
+  });
 
-  // ตรวจสอบว่ามีข้อมูลจาก API
-  if (!product) {
+  if (!res.ok) {
     return <div>Product not found</div>;
   }
 
-  // เนื่องจากราคามีการใช้ $numberDecimal ให้แปลงเป็นค่า number ด้วย parseFloat
-  const price = product.price?.$numberDecimal ? parseFloat(product.price.$numberDecimal) : product.price;
+  const product = await res.json();
+
+  // แปลงค่า price ที่เป็น Decimal128 ให้เป็น number
+  const price = product.price?.$numberDecimal 
+    ? parseFloat(product.price.$numberDecimal) 
+    : product.price;
 
   return (
     <div>
