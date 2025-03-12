@@ -1,14 +1,14 @@
+// src/app/products/[id]/page.jsx
+
 const URL = process.env.NEXT_PUBLIC_API_URL;
 console.log("API URL:", URL);
 
 export async function generateStaticParams() {
   const res = await fetch(`${URL}/api/all-products`);
-  const products = await res.json();
+  const { products } = await res.json();  // เข้าถึง products
 
   // ดึงเฉพาะ _id ของสินค้า
-  const productIds = products.map((product) => {
-    return product._id;
-  });
+  const productIds = products.map((product) => product._id);
 
   // แปลงให้เป็นอ็อบเจ็กต์ที่มี key เป็น id
   const result = productIds.map((id) => ({ id }));
@@ -23,10 +23,18 @@ export default async function ProductPage({ params }) {
   const product = await res.json();
   // console.log(`id: ${params.id}`);
 
+  // ตรวจสอบว่ามีข้อมูลจาก API
+  if (!product) {
+    return <div>Product not found</div>;
+  }
+
+  // เนื่องจากราคามีการใช้ $numberDecimal ให้แปลงเป็นค่า number ด้วย parseFloat
+  const price = product.price?.$numberDecimal ? parseFloat(product.price.$numberDecimal) : product.price;
+
   return (
     <div>
       <h1>{product.name}</h1>
-      <p>ราคา: {product.price} บาท</p>
+      <p>ราคา: {price} บาท</p>
       <img src={product.image} alt={product.name} width={300} />
       <p>description: {product.description}</p>
     </div>

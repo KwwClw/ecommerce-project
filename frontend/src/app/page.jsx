@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import ImageSlider from "@/components/ImageSlider";
 
 const Home = () => {
   const [user, setUser] = useState(null);
@@ -11,19 +12,19 @@ const Home = () => {
   const [error, setError] = useState(null); // สำหรับจัดการข้อผิดพลาด
   const URL = process.env.NEXT_PUBLIC_API_URL;
   const [isClient, setIsClient] = useState(false);
-  // const formatProductName = (name) => {
-  //   return name
-  //     .toLowerCase()  // แปลงเป็นตัวพิมพ์เล็กทั้งหมด
-  //     .replace(/\s+/g, '-')  // แทนที่ช่องว่างด้วยขีด
-  //     .replace(/[^\w-]/g, '');  // ลบตัวอักษรพิเศษหรือสัญลักษณ์ที่ไม่ต้องการ
-  // }
+  const formatProductName = (name) => {
+    return name
+      .toLowerCase()  // แปลงเป็นตัวพิมพ์เล็กทั้งหมด
+      .replace(/\s+/g, '-')  // แทนที่ช่องว่างด้วยขีด
+      .replace(/[^\w-]/g, '');  // ลบตัวอักษรพิเศษหรือสัญลักษณ์ที่ไม่ต้องการ
+  }
 
   useEffect(() => {
     // ดึงข้อมูลสินค้า
     fetch(`${URL}/api/all-products`)
       .then((res) => res.json())
       .then((data) => {
-        setProducts(data);
+        setProducts(data.products);
         setLoading(false);
       })
       .catch((error) => {
@@ -75,17 +76,23 @@ const Home = () => {
         )}
 
         {!loading && !error && products.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
             {products.map((product) => (
-              <Link key={product.id} href={`/products/${product._id}`}>
+              <Link key={product._id} href={`/products/${product._id}`}>
                 <div className="w-full p-4 border rounded-lg shadow-md bg-white">
+                  <p className="text-sm text-gray-600">100 sold</p>
                   <img
                     src={product.image}
-                    alt={product.name}
+                    alt={formatProductName(product.name)}
                     className="w-full max-h-full object-contain rounded"
                   />
-                  <h2 className="mt-2 font-semibold line-clamp-2">{product.name}</h2>
-                  <p className="text-gray-700">฿ {product.price}</p>
+                  <h2 className="mt-2 font-semibold line-clamp-3 min-h-[7rem]">{product.name}</h2>
+                  <p className="text-gray-700">
+                    ฿ {Number.isInteger(parseFloat(product.price.$numberDecimal))
+                      ? parseFloat(product.price.$numberDecimal).toLocaleString("th-TH")  // ถ้าเป็นจำนวนเต็ม ไม่ใส่ .00
+                      : parseFloat(product.price.$numberDecimal).toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })  // ถ้ามีจุดทศนิยม ใส่ .00
+                    }
+                  </p>
                 </div>
               </Link>
             ))}
@@ -94,7 +101,7 @@ const Home = () => {
           !loading && !error && <p className="text-gray-500 text-center">ยังไม่มีสินค้า</p>
         )}
       </main>
-
+      <ImageSlider />
     </div>
   );
 };
