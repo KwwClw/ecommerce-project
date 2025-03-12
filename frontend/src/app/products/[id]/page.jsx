@@ -5,17 +5,17 @@ console.log("API URL:", URL);
 
 export async function generateStaticParams() {
   const res = await fetch(`${URL}/api/all-products`);
-  const { products } = await res.json();  // เข้าถึง products
+  const productsData = await res.json();
+  
+  if (!productsData.products) {
+    console.error("No products data found");
+    return []; // หรือค่าผิดปกติอื่นๆ
+  }
 
-  // ดึงเฉพาะ _id ของสินค้า
-  const productIds = products.map((product) => product._id);
-
-  // แปลงให้เป็นอ็อบเจ็กต์ที่มี key เป็น id
+  const productIds = productsData.products.map((product) => product._id);
   const result = productIds.map((id) => ({ id }));
 
-  console.log(result); // log ผลลัพธ์ในรูปแบบที่ต้องการ
-
-  return result; // คืนค่าเป็นอาร์เรย์ของอ็อบเจ็กต์
+  return result;
 }
 
 export default async function ProductPage({ params }) {
