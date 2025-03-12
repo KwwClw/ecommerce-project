@@ -4,20 +4,35 @@ const URL = process.env.NEXT_PUBLIC_API_URL;
 console.log("API URL:", URL);
 
 export async function generateStaticParams() {
-  const res = await fetch(`${URL}/api/all-products`);
-  const productsData = await res.json();
-  
-  if (!productsData.products) {
-    console.error("No products data found");
-    return []; // หรือค่าผิดปกติอื่นๆ
+  const URL = process.env.NEXT_PUBLIC_API_URL;
+  let page = 1;
+  let allProducts = [];
+
+  try {
+    while (true) {
+      const res = await fetch(`${URL}/api/all-products?page=${page}&limit=10`);
+      const data = await res.json();
+
+      if (!data.products || data.products.length === 0) {
+        break; // ถ้าไม่มีสินค้าหรือ API คืนค่าว่าง หยุดการโหลด
+      }
+
+      allProducts = [...allProducts, ...data.products];
+
+      if (page >= data.totalPages) {
+        break; // หยุดเมื่อถึงหน้าสุดท้าย
+      }
+
+      page++; // ไปหน้าถัดไป
+    }
+
+    // แปลงเป็นรูปแบบที่ Next.js ต้องการ
+    return allProducts.map((product) => ({ id: product._id }));
+
+  } catch (error) {
+    console.error("Error fetching all products:", error);
+    return [];
   }
-
-  const productIds = productsData.products.map((product) => product._id);
-  const result = productIds.map((id) => ({ id }));
-
-  console.log(result); // log ผลลัพธ์ในรูปแบบที่ต้องการ
-
-  return result;
 }
 
 export default async function ProductPage({ params }) {
