@@ -42,11 +42,3 @@ export default async function ProductPage({ params }) {
     </div>
   );
 }
-
-// export default function PagProductPage({ params }) {
-//   return (
-//     <div>
-//       <h1>My Post: {params.id}</h1>
-//     </div>
-//   );
-// }
