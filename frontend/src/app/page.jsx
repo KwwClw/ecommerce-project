@@ -90,7 +90,7 @@ const Home = () => {
                   />
 
                   {/* ชื่อสินค้า แสดง 2 บรรทัด พร้อม ... และเว้นที่ว่าง 2 บรรทัดด้านล่าง */}
-                  <h2 className="mt-2 font-semibold line-clamp-2 min-h-[4rem] overflow-hidden break-words">
+                  <h2 className="mt-2 mb-12 font-semibold line-clamp-2">
                     {product.name}
                   </h2>
 
