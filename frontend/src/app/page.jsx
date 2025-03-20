@@ -81,16 +81,24 @@ const Home = () => {
               <Link key={product._id} href={`/products/${product._id}`}>
                 <div className="w-full p-4 border rounded-lg shadow-md bg-white">
                   <p className="text-sm text-gray-600">100 sold</p>
+
+                  {/* รูปภาพเป็นสี่เหลี่ยมจัตุรัส */}
                   <img
                     src={product.image}
                     alt={formatProductName(product.name)}
-                    className="w-full max-h-full object-contain rounded"
+                    className="w-full aspect-square object-contain rounded"
                   />
-                  <h2 className="mt-2 font-semibold line-clamp-3 min-h-[7rem]">{product.name}</h2>
+
+                  {/* ชื่อสินค้า แสดง 2 บรรทัด พร้อม ... และเว้นที่ว่าง 2 บรรทัดด้านล่าง */}
+                  <h2 className="mt-2 font-semibold line-clamp-2 min-h-[4rem] overflow-hidden break-words">
+                    {product.name}
+                  </h2>
+
+                  {/* ราคา */}
                   <p className="text-gray-700">
                     ฿ {Number.isInteger(parseFloat(product.price.$numberDecimal))
-                      ? parseFloat(product.price.$numberDecimal).toLocaleString("th-TH")  // ถ้าเป็นจำนวนเต็ม ไม่ใส่ .00
-                      : parseFloat(product.price.$numberDecimal).toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })  // ถ้ามีจุดทศนิยม ใส่ .00
+                      ? parseFloat(product.price.$numberDecimal).toLocaleString("th-TH")
+                      : parseFloat(product.price.$numberDecimal).toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                     }
                   </p>
                 </div>
