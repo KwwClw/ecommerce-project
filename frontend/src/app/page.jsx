@@ -46,21 +46,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* 🔹 Header */}
-      <header className="w-full p-4 flex justify-between items-center bg-gray-100 shadow-md">
-        <h1 className="text-xl font-bold">🛒 MyShop</h1>
-        {isClient && user ? (
-          <span className="text-blue-600 font-semibold">👤 {user.username}</span>
-        ) : (
-          <div>
-            <Link href="/login">
-              <button className="mr-2 px-4 py-1 bg-custom-gray text-white rounded hover:bg-custom-gray-light">
-                log in
-              </button>
-            </Link>
-          </div>
-        )}
-      </header>
 
       {/* 🔹 Product List */}
       <main className="relative p-6 mx-auto max-w-screen-xl flex-1">
