@@ -34,6 +34,8 @@ model Product {
   brand       String
   model       String
   description String
+  category    Category?        @relation(fields: [categoryId], references: [id])
+  categoryId  Int?
   variants    Variant[]
   oderItems   ProductOnOrder[]
   cartItems   ProductOnCart[]
@@ -80,10 +82,11 @@ model ProductOnOrder {
 }
 
 model Category {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Cart {
