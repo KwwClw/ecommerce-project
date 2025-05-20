@@ -44,7 +44,7 @@ model Product {
   id          Int              @id @default(autoincrement())
   brand       String
   model       String
-  description String
+  description String @db.Text
   category    Category?        @relation(fields: [categoryId], references: [id])
   categoryId  Int?
   variants    Variant[]
